@@ -35,32 +35,32 @@
 // ]
 //
 // Score 141 (includes a strike on the last frame):
-// const frames = [
-//   [1, 2],
-//   [6, 4],
-//   [5, 4],
-//   [10, 0],
-//   [7, 2],
-//   [10, 0],
-//   [10, 0],
-//   [5, 2],
-//   [7, 0],
-//   [10, 10, 10],
-// ]
-//
-// Score 300 (perfect game):
 const frames = [
+  [1, 2],
+  [6, 4],
+  [5, 4],
+  [10, 0],
+  [7, 2],
   [10, 0],
   [10, 0],
-  [10, 0],
-  [10, 0],
-  [10, 0],
-  [10, 0],
-  [10, 0],
-  [10, 0],
-  [10, 0],
+  [5, 2],
+  [7, 0],
   [10, 10, 10],
 ]
+//
+// Score 300 (perfect game):
+// const frames = [
+//   [10, 0],
+//   [10, 0],
+//   [10, 0],
+//   [10, 0],
+//   [10, 0],
+//   [10, 0],
+//   [10, 0],
+//   [10, 0],
+//   [10, 0],
+//   [10, 10, 10],
+// ]
 
 // loop through calculating the score for each frame
 // if frame total != 10 {add simple total and push to totals array}
@@ -75,16 +75,12 @@ const frames = [
 // if frame 9 is a spare then add 1 plus first ball of frame 10
 // if frame 10 is not a strike or spare, then simple add on total
 // if frame 10 is a strike or spare, then there is 3rd ball, add sum up of the 3balls to total
-let totals = []
-let total = 0
 
-function add(frame) {
-  let frameTot = frame.reduce((acc, current) => acc + current, 0)
+let totals = []
+// function adds up all numbers in an array
+function add(arr) {
+  let frameTot = arr.reduce((acc, current) => acc + current, 0)
   return frameTot
-}
-function calcTotal(totals) {
-  total = totals.reduce((acc, current) => acc + current, 0)
-  return total
 }
 
 function calcFrame(frames) {
@@ -112,15 +108,11 @@ function calcFrame(frames) {
     ? totals.push(add(frames[8]) + frames[8 + 1][0])
     : // if it is not a spare then it is a strike and we add the total from the current frame with the next two balls
       totals.push(add(frames[8]) + frames[9][0] + frames[9][1])
-  // logic for frame 10
-  // if frame 10 is not a strike or spare, then simple add on total
-  // if frame 10 is a strike or spare, then there is 3rd ball, add sum up of the 3balls to total
+  // logic for frame 10 add all balls together
   totals.push(add(frames[9]))
 }
 
-// [1, 9, 1] = 11   or  [10, 1, 1] = 12  or [6, 2] = 8
-
 calcFrame(frames)
-calcTotal(totals)
-console.log(totals)
-console.log(total)
+let total = add(totals)
+console.log(`Scores by frame: ${totals}`)
+console.log(`Game score: ${total}`)
